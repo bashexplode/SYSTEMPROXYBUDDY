@@ -1,2 +1,2 @@
 # SYSTEMPROXYBUDDY
-less clicks, more proxy
+less clicky, more proxy
