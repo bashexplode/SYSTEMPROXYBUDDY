@@ -53,7 +53,8 @@ namespace SYSTEMPROXYBUDDY
 
         public static bool GetProxyStatus()
         {
-            RegistryKey registry = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
+            RegistryKey registry;
+            registry = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings", true);
             int currentProxyEnabledReg = int.Parse(registry.GetValue("ProxyEnable").ToString());
             if (currentProxyEnabledReg == 1)
             {
@@ -63,10 +64,19 @@ namespace SYSTEMPROXYBUDDY
             {
                 proxyEnabled = false;
             }
-
-            string currentProxyServerReg = registry.GetValue("ProxyServer").ToString();
-            currentProxyServerHost = currentProxyServerReg.Split(':')[0];
-            currentProxyServerPort = currentProxyServerReg.Split(':')[1];
+            string currentProxyServerReg;
+            if (registry.GetValue("ProxyServer") == null)
+            {
+                currentProxyServerReg = "";
+                currentProxyServerHost = "";
+                currentProxyServerPort = "";
+            }
+            else
+            {
+                currentProxyServerReg = registry.GetValue("ProxyServer").ToString();
+                currentProxyServerHost = currentProxyServerReg.Split(':')[0];
+                currentProxyServerPort = currentProxyServerReg.Split(':')[1];
+            }
 
             Console.WriteLine(currentProxyEnabledReg);
             Console.WriteLine(currentProxyServerReg);
